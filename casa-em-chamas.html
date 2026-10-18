@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herói das Chamas - Resgate na Casa em Chamas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Importação da fonte Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 1rem;
+        }
+
+        /* Mecanismo de navegação em tela única usando CSS :target */
+        .room-screen {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Por padrão, a rua (#rua) fica visível quando não há hash na URL */
+        #rua {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Oculta a rua se qualquer outro :target estiver ativo */
+        :target ~ #rua {
+            display: none;
+        }
+
+        /* Exibe apenas o cômodo atual ativo via hashtag */
+        .room-screen:target {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Efeito de brilho nas bordas */
+        .fire-glow {
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.25);
+        }
+
+        .success-glow {
+            box-shadow: 0 0 35px rgba(34, 197, 94, 0.35);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 p-4 min-h-screen flex items-center justify-center">
+
+    <!-- Container Principal do Jogo -->
+    <main class="w-full max-w-xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 fire-glow relative overflow-hidden shadow-2xl">
+        
+        <!-- Cabeçalho Fixo do Jogo (Apresentação do Nome e Objetivo) -->
+        <header class="text-center pb-6 mb-6 border-b border-slate-800">
+            <span class="inline-block px-3 py-1 bg-red-950/80 text-red-400 border border-red-800/50 rounded-full text-xs font-semibold uppercase tracking-wider mb-2">
+                Simulação de Resgate
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-amber-300">
+                Herói das Chamas
+            </h1>
+            <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                <strong class="text-slate-200">Objetivo:</strong> Navegue pelos cômodos da casa e localize a pessoa retida no ambiente para concluir o resgate com sucesso.
+            </p>
+        </header>
+
+        <!-- ==================== CÔMODO 1: RUA (INÍCIO) ==================== -->
+        <section id="rua" class="room-screen">
+            <div class="flex items-center space-x-2 text-red-400 text-xs font-bold uppercase tracking-wide mb-1">
+                <span>Localização Atual</span>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-3">
+                Frente da Casa (Rua)
+            </h2>
+            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 mb-6 text-slate-300 text-sm sm:text-base leading-relaxed">
+                Você está localizado na rua, em frente à residência. Escolha por onde deseja acessar o imóvel.
+            </div>
+            
+            <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Opções de Entrada:</h3>
+            <div class="grid grid-cols-1 gap-3">
+                <a href="#sala" class="group flex items-center justify-between p-4 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-semibold rounded-xl transition duration-200 shadow-lg hover:shadow-orange-500/20 active:scale-[0.99]">
+                    <span>Entrar pela Porta Principal</span>
+                    <span class="text-xs bg-black/20 px-2 py-1 rounded group-hover:translate-x-1 transition">Acessar Sala &rarr;</span>
+                </a>
+                <a href="#quarto-frente" class="group flex items-center justify-between p-4 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-semibold rounded-xl border border-slate-700 transition duration-200 active:scale-[0.99]">
+                    <span>Entrar pela Janela da Frente</span>
+                    <span class="text-xs bg-slate-900 px-2 py-1 rounded group-hover:translate-x-1 transition">Acessar Quarto Frontal &rarr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ==================== CÔMODO 2: SALA ==================== -->
+        <section id="sala" class="room-screen">
+            <div class="flex items-center space-x-2 text-amber-400 text-xs font-bold uppercase tracking-wide mb-1">
+                <span>Localização Atual</span>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-3">
+                Sala de Estar
+            </h2>
+            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 mb-6 text-slate-300 text-sm sm:text-base leading-relaxed">
+                Você está na sala de estar. Há um corredor, uma porta interna de acesso ao quarto frontal e a porta principal que retorna à rua.
+            </div>
+
+            <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Opções de Caminho:</h3>
+            <div class="grid grid-cols-1 gap-3">
+                <a href="#corredor" class="group flex items-center justify-between p-4 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-semibold rounded-xl border border-slate-700 transition duration-200 active:scale-[0.99]">
+                    <span>Seguir pelo Corredor</span>
+                    <span class="text-xs bg-slate-900 px-2 py-1 rounded group-hover:translate-x-1 transition">Acessar Corredor &rarr;</span>
+                </a>
+                <a href="#quarto-frente" class="group flex items-center justify-between p-4 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-semibold rounded-xl border border-slate-700 transition duration-200 active:scale-[0.99]">
+                    <span>Passar pela Porta Interna</span>
+                    <span class="text-xs bg-slate-900 px-2 py-1 rounded group-hover:translate-x-1 transition">Acessar Quarto Frontal &rarr;</span>
+                </a>
+                <a href="#rua" class="group flex items-center justify-between p-3 bg-slate-950 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium rounded-xl border border-slate-800 transition duration-200 text-sm active:scale-[0.99]">
+                    <span>Sair pela Porta Principal</span>
+                    <span class="text-xs bg-slate-900 px-2 py-1 rounded group-hover:translate-x-1 transition">Voltar à Rua &rarr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ==================== CÔMODO 3: QUARTO DA FRENTE ==================== -->
+        <section id="quarto-frente" class="room-screen">
+            <div class="flex items-center space-x-2 text-amber-400 text-xs font-bold uppercase tracking-wide mb-1">
+                <span>Localização Atual</span>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-3">
+                Quarto Frontal
+            </h2>
+            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 mb-6 text-slate-300 text-sm sm:text-base leading-relaxed">
+                Você está no quarto frontal. Este cômodo possui ligação com a janela da rua e com a sala de estar.
+            </div>
+
+            <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Opções de Caminho:</h3>
+            <div class="grid grid-cols-1 gap-3">
+                <a href="#sala" class="group flex items-center justify-between p-4 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-semibold rounded-xl border border-slate-700 transition duration-200 active:scale-[0.99]">
+                    <span>Passar pela Porta Interna</span>
+                    <span class="text-xs bg-slate-900 px-2 py-1 rounded group-hover:translate-x-1 transition">Acessar Sala &rarr;</span>
+                </a>
+                <a href="#rua" class="group flex items-center justify-between p-3 bg-slate-950 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium rounded-xl border border-slate-800 transition duration-200 text-sm active:scale-[0.99]">
+                    <span>Sair pela Janela</span>
+                    <span class="text-xs bg-slate-900 px-2 py-1 rounded group-hover:translate-x-1 transition">Voltar à Rua &rarr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ==================== CÔMODO 4: CORREDOR ==================== -->
+        <section id="corredor" class="room-screen">
+            <div class="flex items-center space-x-2 text-amber-400 text-xs font-bold uppercase tracking-wide mb-1">
+                <span>Localização Atual</span>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-3">
+                Corredor
+            </h2>
+            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 mb-6 text-slate-300 text-sm sm:text-base leading-relaxed">
+                Você está no corredor. Ao fundo é possível acessar a cozinha, ou você pode retornar para a sala de estar.
+            </div>
+
+            <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Opções de Caminho:</h3>
+            <div class="grid grid-cols-1 gap-3">
+                <a href="#cozinha" class="group flex items-center justify-between p-4 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-semibold rounded-xl border border-slate-700 transition duration-200 active:scale-[0.99]">
+                    <span>Seguir até a Cozinha</span>
+                    <span class="text-xs bg-slate-900 px-2 py-1 rounded group-hover:translate-x-1 transition">Acessar Cozinha &rarr;</span>
+                </a>
+                <a href="#sala" class="group flex items-center justify-between p-3 bg-slate-950 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium rounded-xl border border-slate-800 transition duration-200 text-sm active:scale-[0.99]">
+                    <span>Voltar para a Sala</span>
+                    <span class="text-xs bg-slate-900 px-2 py-1 rounded group-hover:translate-x-1 transition">Voltar &rarr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ==================== CÔMODO 5: COZINHA ==================== -->
+        <section id="cozinha" class="room-screen">
+            <div class="flex items-center space-x-2 text-amber-400 text-xs font-bold uppercase tracking-wide mb-1">
+                <span>Localização Atual</span>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-3">
+                Cozinha
+            </h2>
+            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 mb-6 text-slate-300 text-sm sm:text-base leading-relaxed">
+                Você está na cozinha. A partir deste local há portas para um quarto, para o banheiro e o caminho de volta ao corredor.
+            </div>
+
+            <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Opções de Caminho:</h3>
+            <div class="grid grid-cols-1 gap-3">
+                <a href="#quarto-vítima" class="group flex items-center justify-between p-4 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-semibold rounded-xl border border-slate-700 transition duration-200 active:scale-[0.99]">
+                    <span>Entrar pela Porta para o Segundo Quarto</span>
+                    <span class="text-xs bg-slate-900 px-2 py-1 rounded group-hover:translate-x-1 transition">Acessar Quarto &rarr;</span>
+                </a>
+                <a href="#banheiro" class="group flex items-center justify-between p-4 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-semibold rounded-xl border border-slate-700 transition duration-200 active:scale-[0.99]">
+                    <span>Entrar pela Porta do Banheiro</span>
+                    <span class="text-xs bg-slate-900 px-2 py-1 rounded group-hover:translate-x-1 transition">Acessar Banheiro &rarr;</span>
+                </a>
+                <a href="#corredor" class="group flex items-center justify-between p-3 bg-slate-950 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium rounded-xl border border-slate-800 transition duration-200 text-sm active:scale-[0.99]">
+                    <span>Voltar ao Corredor</span>
+                    <span class="text-xs bg-slate-900 px-2 py-1 rounded group-hover:translate-x-1 transition">Voltar &rarr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ==================== CÔMODO 6: BANHEIRO ==================== -->
+        <section id="banheiro" class="room-screen">
+            <div class="flex items-center space-x-2 text-amber-400 text-xs font-bold uppercase tracking-wide mb-1">
+                <span>Localização Atual</span>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-3">
+                Banheiro
+            </h2>
+            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 mb-6 text-slate-300 text-sm sm:text-base leading-relaxed">
+                Você está no banheiro. A única passagem disponível é a porta de retorno para a cozinha.
+            </div>
+
+            <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Opções de Caminho:</h3>
+            <div class="grid grid-cols-1 gap-3">
+                <a href="#cozinha" class="group flex items-center justify-between p-4 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-semibold rounded-xl border border-slate-700 transition duration-200 active:scale-[0.99]">
+                    <span>Voltar pela Porta para a Cozinha</span>
+                    <span class="text-xs bg-slate-900 px-2 py-1 rounded group-hover:translate-x-1 transition">Voltar à Cozinha &rarr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ==================== CÔMODO 7: SEGUNDO QUARTO (OBJETIVO ALCANÇADO) ==================== -->
+        <section id="quarto-vítima" class="room-screen">
+            <div class="bg-emerald-950/80 border border-emerald-500/50 rounded-2xl p-6 text-center success-glow">
+                <h2 class="text-3xl font-extrabold text-emerald-400 mb-2">
+                    JOGO CONCLUÍDO COM SUCESSO!
+                </h2>
+                <div class="text-xs font-semibold text-emerald-300 uppercase tracking-widest mb-4">
+                    Localização Destino: Segundo Quarto
+                </div>
+                <p class="text-slate-200 text-base leading-relaxed mb-6">
+                    Você encontrou o cômodo destino e completou o resgate da vítima com êxito!
+                </p>
+                <div class="pt-4 border-t border-emerald-800/40">
+                    <a href="#rua" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-900/40 active:scale-95">
+                        <span>Reiniciar Jogo</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rodapé -->
+        <footer class="mt-8 text-center text-xs text-slate-500 border-t border-slate-800/60 pt-4">
+            Jogo desenvolvido exclusivamente com HTML5 &amp; CSS puro (usando seletor <code>:target</code>).
+        </footer>
+
+    </main>
+
+</body>
+</html>
